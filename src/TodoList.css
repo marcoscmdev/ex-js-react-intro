@@ -1,8 +1,5 @@
-ul {
-width: 327;
-height: 124;
-top: 315px;
-left: 24px;
-opacity: 1;
-list-style: none;
+.TodoList {
+margin:0;
+padding:0 0 56px 0;
+list-style:none;
 }
