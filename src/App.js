@@ -7,24 +7,59 @@ import { CreateTodoButton } from "./CreateTodoButton";
 import React from "react";
 import "./App.css";
 
-
 const defaultTodos = [
   { text: "Llorar con la llorona", completed: true },
   { text: "Cortar cebolla", completed: false },
   { text: "Tomar el curso de React", completed: false },
   { text: "LALALAALA", completed: false },
-  { text: "LALALAALA", completed: false },
 ];
 
 function App() {
+  const [searchValue, setSearchValue] = React.useState("");
+  const [todos, setTodos] = React.useState(defaultTodos);
+
+  const searchedTodos = todos.filter((todo) => {
+    const todoText = todo.text.toLocaleLowerCase();
+    const searchText = searchValue.toLocaleLowerCase();
+    return todoText.includes(searchText);
+  });
+
+  const completedTodos = todos.filter((todo) => !!todo.completed).length;
+  const totalTodos = todos.length;
+
+  const completeTodo = (text) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text == text);
+    newTodos[todoIndex].completed = true;
+    setTodos(newTodos);
+  };
+
+  const deleteTodo = (text) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text == text
+    );
+    newTodos.splice(todoIndex, 1);
+    setTodos(newTodos);
+  };
+
+
   return (
     <>
-      <TodoCounter completed={15} total={25} />
-      <TodoSearch />
+      <TodoCounter completed={completedTodos} total={totalTodos} />
+      <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
 
       <TodoList>
-        {defaultTodos.map((todo) => (
-          <TodoItem className="todo-item" key={todo.text} text={todo.text} completed={todo.completed} />
+        {searchedTodos.map((todo) => (
+          <TodoItem
+            className="todo-item"
+            key={todo.text}
+            text={todo.text}
+            completed={todo.completed}
+            onComplete={() => completeTodo(todo.text)}
+            onDelete={() => deleteTodo(todo.text)}
+          />
         ))}
       </TodoList>
 
