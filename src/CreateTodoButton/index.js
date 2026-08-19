@@ -4,8 +4,6 @@ function CreateTodoButton() {
   onClick={
     ()=>  {
       console.log('Click en el boton de crear TODO')
-      console.log(event)
-      console.log(event.target)
     }
   }>+</button>;
 }
