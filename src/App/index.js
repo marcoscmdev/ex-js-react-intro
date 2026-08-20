@@ -1,11 +1,6 @@
-import { TodoCounter } from "../TodoCounter";
-import { TodoSearch } from "../TodoSearch";
-import { TodoList } from "../TodoList";
-import { TodoItem } from "../TodoItem";
-import { CreateTodoButton } from "../CreateTodoButton";
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
-
+import { AppUI } from "./AppUI";
 
 // const defaultTodos = [
 //   { text: "Llorar con la llorona", completed: true },
@@ -17,24 +12,17 @@ import { useLocalStorage } from "./useLocalStorage";
 // localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos));
 // localStorage.removeItem('TODOS_V1');
 
-
-
 function App() {
-
-  const [todos, saveTodos] = useLocalStorage('TODOS_V1', [])
-
+  const {item: todos, saveItem: saveTodos, loading, error} = useLocalStorage("TODOS_V1", []);
   const [searchValue, setSearchValue] = React.useState("");
- 
+  const completedTodos = todos.filter((todo) => !!todo.completed).length;
+  const totalTodos = todos.length;
 
   const searchedTodos = todos.filter((todo) => {
     const todoText = todo.text.toLocaleLowerCase();
     const searchText = searchValue.toLocaleLowerCase();
     return todoText.includes(searchText);
   });
-
-  const completedTodos = todos.filter((todo) => !!todo.completed).length;
-  const totalTodos = todos.length;
-
 
   const completeTodo = (text) => {
     const newTodos = [...todos];
@@ -50,11 +38,19 @@ function App() {
     saveTodos(newTodos);
   };
 
- return (
-  <AppUI 
-
-  />
- );
+  return (
+    <AppUI
+      loading={loading}
+      error={error}
+      completedTodos={completedTodos}
+      searchValue={searchValue}
+      totalTodos={totalTodos}
+      setSearchValue={setSearchValue}
+      searchedTodos={searchedTodos}
+      completeTodo={completeTodo}
+      deleteTodo={deleteTodo}
+    />
+  );
 }
 
 export default App;
