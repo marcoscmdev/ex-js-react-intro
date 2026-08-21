@@ -8,6 +8,7 @@ import { TodosLoading } from "../TodosLoading";
 import { TodosError } from "../TodosError";
 import { EmptyTodos } from "../EmptyTodos";
 import { TodoContext } from "../TodoContext";
+import { Modal } from "../Modal";
 
 function AppUI() {
   const {
@@ -16,6 +17,8 @@ function AppUI() {
         deleteTodo,
         loading,
         error,
+        openModal,
+        setOpenModal
        } = React.useContext(TodoContext);
   return (
     <>
@@ -42,7 +45,15 @@ function AppUI() {
             />
           ))}
         </TodoList>
-      <CreateTodoButton />
+      <CreateTodoButton 
+      setOpenModal={setOpenModal}/>
+      
+      {openModal && (
+        <Modal>
+        Texto a transportar
+      </Modal>
+      )}
+
     </>
   );
 }
