@@ -8,6 +8,7 @@ import { TodosLoading } from "../TodosLoading";
 import { TodosError } from "../TodosError";
 import { EmptyTodos } from "../EmptyTodos";
 import { TodoContext } from "../TodoContext";
+import {TodoForm} from "../TodoForm";
 import { Modal } from "../Modal";
 
 function AppUI() {
@@ -50,7 +51,7 @@ function AppUI() {
       
       {openModal && (
         <Modal>
-        Texto a transportar
+        <TodoForm />
       </Modal>
       )}
 
